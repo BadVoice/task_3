@@ -6,7 +6,7 @@ export interface NotificationServiceInterface<TIn = string> {
 }
 
 export class NotificationService implements NotificationServiceInterface<Account> {
-   sendWelcomeMessage(account: any) {
+   sendWelcomeMessage(account: Account) {
      if(!account) {
       throw new AccountError('Error for empty name')
      }

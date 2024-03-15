@@ -12,7 +12,9 @@ export interface AccountManagerInterface {
 }
 
 export class AccountManager implements AccountManagerInterface {
-  constructor(private readonly notificationService: NotificationService | undefined ) {
+  private readonly notificationService: NotificationService | undefined
+
+  constructor( notificationService: NotificationService | undefined ) {
     this.notificationService = notificationService
   }
 
@@ -34,7 +36,7 @@ export class AccountManager implements AccountManagerInterface {
     const openAccount: Account = new Account(accountData)
 
     try {
-      const message = await this.notificationService.sendWelcomeMessage(openAccount);
+      this.notificationService.sendWelcomeMessage(openAccount);
     } catch (error) {
       throw new AccountError('error when sending welcome message');
     }

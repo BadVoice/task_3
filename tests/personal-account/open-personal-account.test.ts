@@ -7,10 +7,9 @@ import {
 } from "../../source/personal-account";
 
 describe("Personal-Account: OpenAccount", () => {
-  const mockNotification = { sendWelcomeMessage: jest.fn() }
+  const mockNotification = { sendWelcomeMessage: jest.fn((mock) => mock) }
   const notificationService: NotificationService = mockNotification
   const manager: AccountManager = new AccountManager(notificationService);
-
 
   test("Should successfully open a personal account", async () => {
     const command = new OpenAccountCommand();
