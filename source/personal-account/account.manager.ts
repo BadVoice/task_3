@@ -12,7 +12,9 @@ export interface AccountManagerInterface {
 }
 
 export class AccountManager implements AccountManagerInterface {
-  private readonly notificationService: NotificationService = new NotificationService();
+  constructor(private readonly notificationService: NotificationService | undefined ) {
+    this.notificationService = notificationService
+  }
 
   async openAccount(command: OpenAccountCommand): Promise<Account> {
     const { email, name } = command;
@@ -33,7 +35,6 @@ export class AccountManager implements AccountManagerInterface {
 
     try {
       const message = await this.notificationService.sendWelcomeMessage(openAccount);
-      console.log(message);
     } catch (error) {
       throw new AccountError('error when sending welcome message');
     }
@@ -48,7 +49,7 @@ export class AccountManager implements AccountManagerInterface {
       throw new AccountError('Account not found')
     }
 
-    const closedAccoundData: Account = {  // по сути это данные найденого аккаунта по id
+    const closedAccountData: Account = {  // по сути это данные найденого аккаунта по id
       id,
       email: "customer0919@domain.ru",
       name: "Пугачева Ольга Сергеевна",
@@ -56,7 +57,7 @@ export class AccountManager implements AccountManagerInterface {
       status: "Close"
     };
 
-    const closedAccount: Account = new Account(closedAccoundData);
+    const closedAccount: Account = new Account(closedAccountData);
 
     return closedAccount;
   }

@@ -2,11 +2,11 @@ import {
   AccountManager,
   CloseAccountCommand,
   AccountError,
-  Account
+  Account,
 } from "../../source/personal-account";
 
 describe('Personal-Account: CloseAccount', () => {
-  const manager: AccountManager = new AccountManager();
+  const manager: AccountManager = new AccountManager(undefined);
 
   test('Should successfully close a personal account', async() => {
     const command = new CloseAccountCommand();

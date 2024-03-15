@@ -7,19 +7,17 @@ import {
 } from "../../source/personal-account";
 
 describe("Personal-Account: OpenAccount", () => {
-  const notificationService: NotificationService = new NotificationService();
-  const manager: AccountManager = new AccountManager();
+  const mockNotification = { sendWelcomeMessage: jest.fn() }
+  const notificationService: NotificationService = mockNotification
+  const manager: AccountManager = new AccountManager(notificationService);
 
-  beforeEach(() => {
-    notificationService.sendWelcomeMessage = jest.fn();
-  });
 
   test("Should successfully open a personal account", async () => {
     const command = new OpenAccountCommand();
     command.email = "customer1@domain.ru";
     command.name = "Ярославцев Николай Сереевич";
 
-    const account = await manager.openAccount(command);
+    const account = await manager.openAccount(command)
 
     expect(account).toBeInstanceOf(Account);
     expect(account).toEqual(
@@ -31,7 +29,8 @@ describe("Personal-Account: OpenAccount", () => {
         status: "Open",
       })
     );
-    expect(notificationService.sendWelcomeMessage).toBeCalledTimes(1);
+
+    expect(notificationService.sendWelcomeMessage).toHaveBeenCalledTimes(1);
   });
 
   test("Should throw an error for empty name", async () => {
